@@ -1,4 +1,4 @@
-# Talkbot App
+# Gpt-clone App
 
 A conversational AI app inspired by OpenAI's GPT-3 language model, built with Create React App.
 
