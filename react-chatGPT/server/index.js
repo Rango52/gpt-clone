@@ -6,26 +6,40 @@ const port = 4000;
 
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
-  apiKey: process.env.REACT_APP_OPENAI_API_KEY,
+  apiKey: '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',
 });
 const openai = new OpenAIApi(configuration);
+const API_KEY = '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'
 
 // adding body-parser and cors
-const bodyParser = require("body-parser");
+// const bodyParser = require("body-parser");
 const cors = require("cors");
 
-app.use(bodyParser.json());
+app.use(express.json());
 app.use(cors());
 
-app.post("/", async (req, res) => {
-  const { message } = req.body;
-  const response = await openai.createCompletion({
-    model: "text-davinci-003",
-    prompt: message,
-    max_tokens: 3000,
-    temperature: 0.3,
-  });
-  res.json({ botResponse: response.data.choices[0].text });
+app.post("/completions", async (req, res) => {
+  const options = {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ 
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: req.body.message}],
+      max_tokens: 150,
+     }),
+  }
+
+  try {
+    const response = await fetch("https://api.openai.com/v1/chat/completions", options);
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.log(err);
+  }
+  
 });
 
 app.listen(port, () => {
