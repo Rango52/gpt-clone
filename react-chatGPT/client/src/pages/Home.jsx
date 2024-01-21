@@ -32,17 +32,21 @@ const Home = () => {
 
       async function callAPI() {
         try {
-          const response = await fetch("https://talk-bot.onrender.com/", {
+          const response = await fetch("http://localhost:4000/completions", {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ message: inputPrompt }),
+            body: JSON.stringify({ 
+              message: inputPrompt, }),
+            headers: {
+              "Content-Type": "application/json",
+            },
           });
           const data = await response.json();
+          console.log(data);
           setChatLog([
             ...chatLog,
             {
               chatPrompt: inputPrompt,
-              botMessage: data.botResponse,
+              botMessage: data.choices[0].message.content,
             },
           ]);
           setErr(false);
