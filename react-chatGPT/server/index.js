@@ -4,12 +4,7 @@ const express = require("express");
 const app = express();
 const port = 4000;
 
-const { Configuration, OpenAIApi } = require("openai");
-const configuration = new Configuration({
-  apiKey: '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',
-});
-const openai = new OpenAIApi(configuration);
-const API_KEY = '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'
+const API_KEY = process.env.API_KEY.toString();
 
 // adding body-parser and cors
 // const bodyParser = require("body-parser");
@@ -28,7 +23,7 @@ app.post("/completions", async (req, res) => {
     body: JSON.stringify({ 
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: req.body.message}],
-      max_tokens: 150,
+      max_tokens: 3000,
      }),
   }
 
